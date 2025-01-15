@@ -6,11 +6,13 @@ import helmet from "helmet";
 import morgan from "morgan";
 import * as dynamoose from "dynamoose";
 
+import courseRoutes from "./routes/courseRoutes";
+
 dotenv.config();
 
 const isProduction = process.env.NODE_ENV === "production";
 
-if (isProduction) {
+if (!isProduction) {
   dynamoose.aws.ddb.local();
 }
 
@@ -26,6 +28,8 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+app.use("/courses", courseRoutes);
 
 const port = process.env.PORT || 3000;
 
